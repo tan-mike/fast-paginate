@@ -4,6 +4,9 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/aaronfrancis/fast-paginate)](https://packagist.org/packages/aaronfrancis/fast-paginate)
 [![License](https://img.shields.io/packagist/l/aaronfrancis/fast-paginate)](https://packagist.org/packages/aaronfrancis/fast-paginate)
 
+> [!NOTE]
+> **Maintained fork.** This is `tan-mike/fast-paginate`, a fork of [aaronfrancis/fast-paginate](https://github.com/aarondfrancis/fast-paginate) that adds Laravel 13 support. The `2.x` branch is upstream `v2.0.0` with no source changes. The PHP namespace stays `AaronFrancis\FastPaginate`, and the package `replace`s `aaronfrancis/fast-paginate`, so the two can't be installed together.
+
 ## About
 
 This is a fast `limit`/`offset` pagination macro for Laravel. It can be used in place of the standard `paginate` methods. 
@@ -34,12 +37,23 @@ sure to test on your data!
 
 ## Installation
 
-This package supports Laravel 10, 11, and 12.
+This package supports Laravel 10, 11, 12, and 13.
 
-To install, require the package via composer:
+Add the fork as a repository in your `composer.json`:
 
+```json
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/tan-mike/fast-paginate.git"
+    }
+]
 ```
-composer require aaronfrancis/fast-paginate
+
+Then require it:
+
+```shell
+composer require tan-mike/fast-paginate
 ```
 
 There is nothing further you need to do. The service provider will be loaded automatically by Laravel.

@@ -1,6 +1,6 @@
 {
-    "name": "aaronfrancis/fast-paginate",
-    "description": "Fast paginate for Laravel",
+    "name": "tan-mike/fast-paginate",
+    "description": "Fast paginate for Laravel (maintained fork of aaronfrancis/fast-paginate)",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -9,6 +9,9 @@
             "email": "aaron@tryhardstudios.com"
         }
     ],
+    "replace": {
+        "aaronfrancis/fast-paginate": "self.version"
+    },
     "require": {
         "php": "^8.1",
         "illuminate/database": "^10.0|^11.0|^12.0|^13.0"
