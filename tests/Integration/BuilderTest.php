@@ -16,6 +16,7 @@ use AaronFrancis\FastPaginate\Tests\Support\UserWithCustomCollection;
 use Illuminate\Database\QueryException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use PHPUnit\Framework\Attributes\Test;
 
 class BuilderTest extends Base
 {
@@ -24,7 +25,7 @@ class BuilderTest extends Base
     private const TOTAL_POSTS_FIRST_USER = 1;
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function basic_test()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
@@ -32,7 +33,7 @@ class BuilderTest extends Base
         });
 
         $this->assertInstanceOf(LengthAwarePaginator::class, $results);
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $results */
+        /** @var LengthAwarePaginator $results */
         $this->assertEquals(15, $results->count());
         $this->assertEquals('Person 15', $results->last()->name);
         $this->assertCount(3, $queries);
@@ -48,14 +49,14 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function different_page_size()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
             $results = User::query()->fastPaginate(5);
         });
 
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $results */
+        /** @var LengthAwarePaginator $results */
         $this->assertEquals(5, $results->count());
 
         $this->assertEquals(
@@ -69,14 +70,14 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function page_2()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
             $results = User::query()->fastPaginate(5, ['*'], 'page', 2);
         });
 
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $results */
+        /** @var LengthAwarePaginator $results */
         $this->assertEquals(5, $results->count());
 
         $this->assertEquals(
@@ -90,14 +91,14 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function pk_attribute_mutations_are_skipped()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
             $results = UserMutatedId::query()->fastPaginate(5);
         });
 
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $results */
+        /** @var LengthAwarePaginator $results */
         $this->assertEquals(5, $results->count());
 
         $this->assertEquals(
@@ -107,14 +108,14 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function custom_page_is_preserved()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
             $results = UserCustomPage::query()->fastPaginate();
         });
 
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $results */
+        /** @var LengthAwarePaginator $results */
         $this->assertEquals(2, $results->count());
 
         $this->assertEquals(
@@ -128,7 +129,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function not_exists_page_is_preserved()
     {
         $exists = User::query()->fastPaginate();
@@ -139,7 +140,7 @@ class BuilderTest extends Base
 
         $this->assertEquals(get_class($exists), get_class($doesnt));
 
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $doesnt */
+        /** @var LengthAwarePaginator $doesnt */
         $this->assertEquals(0, $doesnt->count());
         $this->assertArrayNotHasKey(2, $queries);
 
@@ -147,7 +148,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function custom_table_is_preserved()
     {
         $this->expectException(QueryException::class);
@@ -157,7 +158,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function order_is_propagated()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
@@ -171,7 +172,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function order_by_raw_is_propagated()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
@@ -185,7 +186,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function eager_loads_are_cleared_on_inner_query()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
@@ -203,7 +204,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function eager_loads_are_loaded_on_outer_query()
     {
         $this->withQueriesLogged(function () use (&$results) {
@@ -215,7 +216,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function selects_are_overwritten()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
@@ -236,7 +237,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function unquoted_selects_are_preserved_if_used_in_order_by()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
@@ -250,7 +251,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function using_expressions_for_order_work()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
@@ -266,7 +267,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function havings_defer()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
@@ -284,7 +285,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function standard_with_count_works()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
@@ -297,14 +298,14 @@ class BuilderTest extends Base
             $queries[1]['query']
         );
 
-        /** @var \Illuminate\Pagination\LengthAwarePaginator $results */
+        /** @var LengthAwarePaginator $results */
         $this->assertTrue($results->hasMorePages());
         $this->assertEquals(1, $results->currentPage());
         $this->assertEquals(self::TOTAL_USERS, $results->total());
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function aliased_with_count()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
@@ -319,7 +320,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function unordered_with_count_is_ignored()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
@@ -334,7 +335,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function uuids_are_bound_correctly()
     {
         $this->seedStringNotifications();
@@ -354,7 +355,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function groups_are_skipped()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
@@ -369,14 +370,14 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function basic_simple_test()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
             $results = User::query()->simpleFastPaginate();
         });
 
-        /** @var \Illuminate\Pagination\Paginator $results */
+        /** @var Paginator $results */
         $this->assertInstanceOf(Paginator::class, $results);
         $this->assertEquals(15, $results->count());
         $this->assertEquals('Person 15', $results->last()->name);
@@ -392,14 +393,14 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function basic_simple_test_page_two()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
             $results = User::query()->simpleFastPaginate(5, ['*'], 'page', 2);
         });
 
-        /** @var \Illuminate\Pagination\Paginator $results */
+        /** @var Paginator $results */
         $this->assertInstanceOf(Paginator::class, $results);
         $this->assertEquals(5, $results->count());
         $this->assertEquals('Person 10', $results->last()->name);
@@ -415,14 +416,14 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function basic_simple_test_from_relation()
     {
         $queries = $this->withQueriesLogged(function () use (&$results) {
             $results = User::first()->posts()->simpleFastPaginate();
         });
 
-        /** @var \Illuminate\Pagination\Paginator $results */
+        /** @var Paginator $results */
         $this->assertInstanceOf(Paginator::class, $results);
         $this->assertEquals(1, $results->count());
         $this->assertEquals('Post 1', $results->last()->name);
@@ -438,7 +439,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function custom_collection_is_preserved()
     {
         $results = UserWithCustomCollection::query()->simpleFastPaginate();
@@ -447,7 +448,7 @@ class BuilderTest extends Base
     }
 
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function with_sum_has_the_correct_number_of_parameters()
     {
         $queries = $this->withQueriesLogged(function () use (&$fast, &$regular) {

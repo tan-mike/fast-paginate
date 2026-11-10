@@ -7,11 +7,12 @@
 namespace AaronFrancis\FastPaginate\Tests\Integration;
 
 use AaronFrancis\FastPaginate\Tests\Support\UserScout;
+use PHPUnit\Framework\Attributes\Test;
 
 class ScoutTest extends Base
 {
     /** @test */
-    #[\PHPUnit\Framework\Attributes\Test]
+    #[Test]
     public function basic_scout_test()
     {
         $queries = $this->withQueriesLogged(function () {
