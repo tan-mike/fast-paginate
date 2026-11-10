@@ -489,8 +489,16 @@ class BuilderTest extends Base
                 ->fastPaginate(2);
         });
 
-        $this->assertEquals($queries[0]['query'],
-            'select count(*) as aggregate from ((select * from `users` where `id` < ?) union all (select * from `users` where `id` > ?)) as `temp_table`');
+        // Unions fall back to the standard paginator. Laravel 13 quotes the
+        // count alias (`aggregate`), so compare against the regular paginator.
+        $expected = $this->withQueriesLogged(function () {
+            User::where('id', '<', 10)
+                ->unionAll(User::where('id', '>', 10))
+                ->paginate(2);
+        });
+
+        $this->assertCount(2, $queries);
+        $this->assertEquals($expected[0]['query'], $queries[0]['query']);
 
         $this->assertEquals($queries[1]['query'],
             '(select * from `users` where `id` < ?) union all (select * from `users` where `id` > ?) limit 2 offset 0');
