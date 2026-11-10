@@ -11,6 +11,7 @@ use AaronFrancis\FastPaginate\Tests\Support\UserScout;
 class ScoutTest extends Base
 {
     /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function basic_scout_test()
     {
         $queries = $this->withQueriesLogged(function () {

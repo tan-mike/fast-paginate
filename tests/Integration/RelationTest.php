@@ -11,6 +11,7 @@ use AaronFrancis\FastPaginate\Tests\Support\User;
 class RelationTest extends Base
 {
     /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function basic_test()
     {
         $user = User::first();
@@ -25,6 +26,7 @@ class RelationTest extends Base
     }
 
     /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function belongs_to_many_test()
     {
         $user = User::first();
@@ -43,6 +45,7 @@ class RelationTest extends Base
     }
 
     /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function belongs_to_many_add_select_alias_test()
     {
         $user = User::first();
@@ -65,6 +68,7 @@ class RelationTest extends Base
     }
 
     /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function belongs_to_many_order_by_alias_test()
     {
         $user = User::first();
@@ -87,6 +91,7 @@ class RelationTest extends Base
     }
 
     /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function belongs_to_many_hydrating_pivot_test()
     {
         $user = User::first();
